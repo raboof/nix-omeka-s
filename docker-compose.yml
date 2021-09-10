@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  database:
+    image: mysql:8.0.25
+    environment:
+      - MYSQL_ROOT_PASSWORD=AhzeiP5s
+      - MYSQL_DATABASE=omeka
+      - MYSQL_USER=omeka
+      - MYSQL_PASSWORD=xie7Hiuf
+  omeka-s:
+    image: raboof/omeka-s:latest
+    links:
+      - database
+    ports:
+      - "8080:8080"
