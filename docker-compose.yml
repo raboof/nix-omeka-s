@@ -11,5 +11,7 @@ services:
     image: raboof/omeka-s:latest
     links:
       - database
+    environment:
+      - APPLICATION_ENV=development
     ports:
       - "8080:8080"

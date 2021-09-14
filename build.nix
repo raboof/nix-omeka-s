@@ -4,12 +4,20 @@ with pkgs;
 
 let
   phpFpmSocketLocation = "/run/php-fpm.sock";
-  omeka-s = fetchFromGitHub {
-    owner = "omeka";
-    repo = "omeka-s";
-    rev = "v3.1.0";
-    hash = "sha256-zWkgcRyihgeughynqcuvMdBMjiTh1DD694A0sCEM3oU=";
-  };
+  # Using the zip distribution here so we don't need
+  # to take care of fetching dependencies
+  version = "3.1.0";
+  omeka-s =
+    fetchzip {
+      url = "https://github.com/omeka/omeka-s/releases/download/v${version}/omeka-s-${version}.zip";
+      hash = "sha256-joJijK5WlEgV+E3w/O/cFMLjxhNCmCMl4y70KLhgG+U=";
+    };
+  #fetchFromGitHub {
+  #  owner = "omeka";
+  #  repo = "omeka-s";
+  #  rev = "v3.1.0";
+  #  hash = "sha256-zWkgcRyihgeughynqcuvMdBMjiTh1DD694A0sCEM3oU=";
+  #};
   databaseConfig = writeText "database.ini" ''
     user     = "omeka"
     password = "xie7Hiuf"
@@ -29,8 +37,12 @@ let
       server {
         listen ${nginxPort};
         index index.php;
+        root /webroot;
         location / {
-          root /webroot;
+          try_files $uri /index.php?$args;
+        }
+        location /install {
+          try_files $uri /index.php?$args;
         }
         location ~ \.php {
           fastcgi_pass unix:${phpFpmSocketLocation};
@@ -97,8 +109,11 @@ let
       mkdir webroot
       cp -ra ${omeka-s}/* webroot
       chmod a+rwx webroot/config
+      chmod a+rwx webroot/config/database.ini
+      ls -alFh webroot/config
       cp ${databaseConfig} webroot/config/database.ini
       chmod a-w webroot/config
+      chmod a+rwx webroot/files
     '';
     config = {
       Cmd = [ "${startScript}" ];
