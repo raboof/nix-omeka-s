@@ -1,1 +1,3 @@
 /result
+# It does need to be writable to be able to monitor them...
+/logs/application.log

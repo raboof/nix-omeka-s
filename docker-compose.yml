@@ -15,3 +15,6 @@ services:
       - APPLICATION_ENV=development
     ports:
       - "8080:8080"
+    volumes:
+      - ./config:/webroot/config
+      - ./logs:/webroot/logs

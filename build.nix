@@ -4,26 +4,71 @@ with pkgs;
 
 let
   phpFpmSocketLocation = "/run/php-fpm.sock";
-  # Using the zip distribution here so we don't need
-  # to take care of fetching dependencies
   version = "3.1.0";
   omeka-s =
     fetchzip {
       url = "https://github.com/omeka/omeka-s/releases/download/v${version}/omeka-s-${version}.zip";
       hash = "sha256-joJijK5WlEgV+E3w/O/cFMLjxhNCmCMl4y70KLhgG+U=";
     };
+  # Using the zip distribution here so we don't need
+  # to take care of fetching dependencies
   #fetchFromGitHub {
   #  owner = "omeka";
   #  repo = "omeka-s";
   #  rev = "v3.1.0";
   #  hash = "sha256-zWkgcRyihgeughynqcuvMdBMjiTh1DD694A0sCEM3oU=";
   #};
-  databaseConfig = writeText "database.ini" ''
-    user     = "omeka"
-    password = "xie7Hiuf"
-    dbname   = "omeka"
-    host     = "database"
-  '';
+  value-suggest =
+    fetchFromGitHub {
+      owner = "Xentropics";
+      repo = "ValueSuggest";
+      # 'ndeterms' branch
+      rev = "fb28c1afa43169adf0cd8532e636161c83835626";
+      hash = "sha256-bI9qz0+convjcvz8z/uFwD5/h+tTfwdVRBlDOfvZHf4=";
+    };
+  generic =
+    fetchFromGitLab {
+      owner = "Daniel-KM";
+      repo = "Omeka-S-module-Generic";
+      rev = "a59e2b5fc32b725a5837b4a11ba7baaba78534ba";
+      hash = "sha256-XhojKehNefAH5UhQgL1RRxQ1mBK1fdj0BRRIbquhQsI=";
+    };
+  #clean-url = /home/aengelen/dev/Omeka-S-module-CleanUrl;
+  clean-url = stdenv.mkDerivation {
+    pname = "Omeka-S-module-CleanUrl";
+    version = "snapshot";
+    src =
+      fetchFromGitLab {
+        owner = "Daniel-KM";
+        repo = "Omeka-S-module-CleanUrl";
+        rev = "b8a0f54300f2dda4d664cca0ffeea135031902a8";
+        hash = "sha256-+ahR2IX5WKi1t7r8ki3x+3h9doBbwUx73r6PGLzEFpU=";
+      };
+    patches = [
+      # avoid strict mysql query checking
+      (fetchpatch {
+        url = "https://gitlab.com/Daniel-KM/Omeka-S-module-CleanUrl/-/commit/e2b2bdad8ed5f233e4b3888391f3b17b54e7f265.patch";
+        sha256 = "0aldbh77dh7z38xybxni22gx3z9991kc4flw8gjmkaikkrhma9fa";
+      })
+      # fix fetchAllAssociative output
+      (fetchpatch {
+        url = "https://gitlab.com/Daniel-KM/Omeka-S-module-CleanUrl/-/commit/51abdb1527f8fadfd74cea4b9df24b5c3652a144.patch";
+        sha256 = "199akm2104fgiph2m4ii0mahim0pjdjjk8i5p02pigyj9ngb0psv";
+      })
+    ];
+    installPhase = ''
+      runHook preInstall
+      cp -r . $out
+      runHook postInstall
+    '';
+  };
+  #clean-url =
+  #  fetchFromGitLab {
+  #    owner = "Daniel-KM";
+  #    repo = "Omeka-S-module-CleanUrl";
+  #    rev = "e841ea1804fe584b10da22fc5f03b1272b64b71e";
+  #    hash = "sha256-rCtxr/RrmOAWy9EXnmzVftDE0QPC1spm7GZad8ussH0=";
+  #  };
   nginxPort = "8080";
   nginxConf = writeText "nginx.conf" ''
     user root nobody;
@@ -108,12 +153,29 @@ let
       # it for now.
       mkdir webroot
       cp -ra ${omeka-s}/* webroot
-      chmod a+rwx webroot/config
-      chmod a+rwx webroot/config/database.ini
-      ls -alFh webroot/config
-      cp ${databaseConfig} webroot/config/database.ini
-      chmod a-w webroot/config
+
+      # We copy the config from the repo into the container.
+      # Some modules can be configured from the web UI, and
+      # write some of that config into /config. If you want
+      # to use that, mount it as a volume: this way, you can
+      # inspect and version-control any such changes.
+      # Doing the same for 'regular' Laminas module configuration
+      # options is a TODO ;)
+      chmod -R a+rwx webroot/config
+      rm -r webroot/config
+      cp -r ${./config} webroot/config
+
       chmod a+rwx webroot/files
+
+      # Can also be mounted for easier access
+      chmod a+rwx webroot/logs
+      chmod a+rwx webroot/logs/*
+
+      chmod a+rwx webroot/modules
+      cp -r ${value-suggest} webroot/modules/ValueSuggest
+      cp -r ${generic} webroot/modules/Generic
+      cp -r ${clean-url} webroot/modules/CleanUrl
+      chmod a-w webroot/modules
     '';
     config = {
       Cmd = [ "${startScript}" ];
