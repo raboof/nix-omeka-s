@@ -48,7 +48,7 @@ let
       # avoid strict mysql query checking
       (fetchpatch {
         url = "https://gitlab.com/Daniel-KM/Omeka-S-module-CleanUrl/-/commit/e2b2bdad8ed5f233e4b3888391f3b17b54e7f265.patch";
-        sha256 = "0aldbh77dh7z38xybxni22gx3z9991kc4flw8gjmkaikkrhma9fa";
+        sha256 = "sha256-r6wdz/ei84s/sOtr7bLW7cKxAuZBT4pKHzVFNvVwf2Y=";
       })
       # fix fetchAllAssociative output
       (fetchpatch {
