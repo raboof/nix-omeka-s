@@ -14,6 +14,9 @@ services:
     environment:
       - APPLICATION_ENV=development
     ports:
+      # When these don't match, set file_store/local/base_uri
+      # to http://yourdomain/files to make URL's for uploaded
+      # images work:
       - "8080:8080"
     volumes:
       - ./config:/webroot/config
