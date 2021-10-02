@@ -123,6 +123,7 @@ let
   phpIni = writeText "php.ini" ''
     post_max_size = 32M
     upload_max_filesize = 32M
+    openssl.cafile=${cacert}/etc/ssl/certs/ca-bundle.crt
   '';
   startScript = writeScript "start.sh" ''
     #!${bash}/bin/sh
