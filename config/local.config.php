@@ -18,7 +18,7 @@ return [
             'square' => ['constraint' => 200],
         ],
         'thumbnailer_options' => [
-            'imagemagick_dir' => null,
+            'imagemagick_dir' => '/bin',
         ],
     ],
     'translator' => [

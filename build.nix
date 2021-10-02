@@ -135,6 +135,10 @@ let
     tag = "latest";
     contents = [
       dockerTools.fakeNss
+      # Needed to create thumbnails
+      imagemagick
+      # Seems to be needed to invoke imagemagick
+      bash
     ];
     extraCommands = ''
       # nginx still tries to read this directory even if error_log
