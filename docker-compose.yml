@@ -21,3 +21,4 @@ services:
     volumes:
       - ./config:/webroot/config
       - ./logs:/webroot/logs
+      - ./files:/webroot/files
