@@ -56,4 +56,11 @@
   #    rev = "e841ea1804fe584b10da22fc5f03b1272b64b71e";
   #    hash = "sha256-rCtxr/RrmOAWy9EXnmzVftDE0QPC1spm7GZad8ussH0=";
   #  };
+  unapi =
+    fetchFromGitLab {
+      owner = "Daniel-KM";
+      repo = "Omeka-S-module-UnApi";
+      rev = "1.3.0";
+      hash = "sha256-MlD8xKKz/b61dceKfUtvwf8xmlOAEdZYff11P3KDtdY=";
+    };
 }

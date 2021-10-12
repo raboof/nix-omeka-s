@@ -130,6 +130,7 @@ let
       cp -r ${omeka-s-modules.value-suggest} webroot/modules/ValueSuggest
       cp -r ${omeka-s-modules.generic} webroot/modules/Generic
       cp -r ${omeka-s-modules.clean-url} webroot/modules/CleanUrl
+      cp -r ${omeka-s-modules.unapi} webroot/modules/UnApi
       chmod a-w webroot/modules
     '';
     config = {
