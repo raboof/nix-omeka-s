@@ -42,6 +42,15 @@
         url = "https://gitlab.com/Daniel-KM/Omeka-S-module-CleanUrl/-/commit/51abdb1527f8fadfd74cea4b9df24b5c3652a144.patch";
         sha256 = "sha256-5UdRyiq5c/iQcUiCEb1rNt71KzhAxr2Wo7Gtl+hFDiI=";
       })
+      # fix media URL's on item pages
+      (fetchpatch {
+        url = "https://gitlab.com/Daniel-KM/Omeka-S-module-CleanUrl/-/commit/261b5ceb8121c07c053adbd05585ef1f436e11f6.patch";
+        sha256 = "sha256-kHLPU6tC2kQZ+BH90o+C69M/PC6OBYr4hyTev2t+ebE=";
+      })
+      (fetchpatch {
+        url = "https://gitlab.com/Daniel-KM/Omeka-S-module-CleanUrl/-/commit/3b3b298c6e2b8f6607dc67986a253c432134bac8.patch";
+        sha256 = "sha256-CWlFj7L+DVKVzezTQFgGzqbNgz+TkQhHogtEE9NsavU=";
+      })
     ];
     installPhase = ''
       runHook preInstall
