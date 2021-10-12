@@ -89,6 +89,8 @@ let
       imagemagick
       # Seems to be needed to invoke imagemagick
       bash
+      # just for development/debugging, to be removed again
+      # vim coreutils findutils
     ];
     extraCommands = ''
       # nginx still tries to read this directory even if error_log
