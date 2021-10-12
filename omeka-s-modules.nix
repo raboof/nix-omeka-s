@@ -72,4 +72,11 @@
       rev = "1.3.0";
       hash = "sha256-MlD8xKKz/b61dceKfUtvwf8xmlOAEdZYff11P3KDtdY=";
     };
+  custom-ontology =
+    fetchFromGitLab {
+      owner = "Daniel-KM";
+      repo = "Omeka-S-module-CustomOntology";
+      rev = "3.3.5.1";
+      hash = "sha256-+HjcCzC5sQ6Fkxt3WZungyoouM/q9t2U4R7BHF/ry+g=";
+    };
 }
