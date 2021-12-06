@@ -13,6 +13,7 @@ services:
       - database
     environment:
       - APPLICATION_ENV=development
+      - OMEKA_CONNECTION_URL=mysql://omeka:xie7Hiuf@database/omeka
     ports:
       # When these don't match, set file_store/local/base_uri
       # to http://yourdomain/files to make URL's for uploaded

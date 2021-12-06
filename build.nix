@@ -4,20 +4,8 @@ with pkgs;
 
 let
   phpFpmSocketLocation = "/run/php-fpm.sock";
-  version = "3.1.0";
-  omeka-s =
-    fetchzip {
-      url = "https://github.com/omeka/omeka-s/releases/download/v${version}/omeka-s-${version}.zip";
-      hash = "sha256-joJijK5WlEgV+E3w/O/cFMLjxhNCmCMl4y70KLhgG+U=";
-    };
-  # Using the zip distribution here so we don't need
-  # to take care of fetching dependencies
-  #fetchFromGitHub {
-  #  owner = "omeka";
-  #  repo = "omeka-s";
-  #  rev = "v3.1.0";
-  #  hash = "sha256-zWkgcRyihgeughynqcuvMdBMjiTh1DD694A0sCEM3oU=";
-  #};
+  version = "3.1.1";
+  omeka-s = callPackage ./omeka-s.nix {};
   omeka-s-modules = callPackage ./omeka-s-modules.nix {};
   nginxPort = "8080";
   nginxConf = writeText "nginx.conf" ''
