@@ -28,8 +28,8 @@ stdenv.mkDerivation rec {
       sha256 = "sha256-q/zv4xST2op5Ofhkr94Ol01DqyZpgfwR4Xa8tWWlSCk=";
     })
     (fetchpatch {
-      url = "https://github.com/omeka/omeka-s/pull/1789/commits/f829497df7d60e61aa85aa8fcecd9b4616ce2294.patch";
-      sha256 = "sha256-MXscWgck6kT0fiNXA7ynqkDhJTRpSKS80YIiEST1+Qk=";
+      url = "https://github.com/omeka/omeka-s/pull/1789/commits/045dd586f8c52b9ad8b715ba57f485d53c35493f.patch";
+      sha256 = "sha256-vvPTbwkaoqDdVQHzFCUYholkx6mkIhPfewyEs+qb8/8=";
     })
   ];
 
