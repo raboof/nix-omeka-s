@@ -21,6 +21,7 @@ let
         listen ${nginxPort};
         index index.php;
         root /webroot;
+        client_max_body_size 16M;
         location / {
           try_files $uri /index.php?$args;
         }
