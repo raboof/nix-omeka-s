@@ -6,12 +6,36 @@
 
 {
   value-suggest =
-    fetchFromGitHub {
-      owner = "Xentropics";
-      repo = "ValueSuggest";
-      # 'ndeterms' branch
-      rev = "fb28c1afa43169adf0cd8532e636161c83835626";
-      hash = "sha256-bI9qz0+convjcvz8z/uFwD5/h+tTfwdVRBlDOfvZHf4=";
+    #fetchFromGitHub {
+    #  owner = "Xentropics";
+    #  repo = "ValueSuggest";
+    #  # 'ndeterms' branch
+    #  rev = "fb28c1afa43169adf0cd8532e636161c83835626";
+    #  hash = "sha256-bI9qz0+convjcvz8z/uFwD5/h+tTfwdVRBlDOfvZHf4=";
+    #};
+    stdenv.mkDerivation {
+      pname = "Omeka-S-module-ValueSuggest";
+      version = "snapshot";
+      src =
+        fetchFromGitHub {
+          owner = "Xentropics";
+          repo = "ValueSuggest";
+          # 'ndeterms' branch
+          rev = "fb28c1afa43169adf0cd8532e636161c83835626";
+          hash = "sha256-bI9qz0+convjcvz8z/uFwD5/h+tTfwdVRBlDOfvZHf4=";
+        };
+      patches = [
+        # https://github.com/Xentropics/ValueSuggest/pull/2 add Dutch localization of AAT
+        (fetchpatch {
+          url = "https://github.com/Xentropics/ValueSuggest/commit/78aa0df03b8eaec15abbefba1d4e3cfbafcf6c3f.patch";
+          sha256 = "sha256-8u6xwV/7g+yH4Yl9nJlTN4vO/6+arpPrsn7Rm2kOKzk=";
+        })
+      ];
+      installPhase = ''
+        runHook preInstall
+        cp -r . $out
+        runHook postInstall
+      '';
     };
   generic =
     fetchFromGitLab {
