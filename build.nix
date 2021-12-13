@@ -128,6 +128,7 @@ let
       cp -r ${omeka-s-modules.clean-url} webroot/modules/CleanUrl
       cp -r ${omeka-s-modules.unapi} webroot/modules/UnApi
       cp -r ${omeka-s-modules.custom-ontology} webroot/modules/CustomOntology
+      cp -r ${omeka-s-modules.custom-vocab} webroot/modules/CustomVocab
       chmod a-w webroot/modules
 
       chmod a+rwx webroot/themes

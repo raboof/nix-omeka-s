@@ -103,4 +103,11 @@
       rev = "3.3.5.1";
       hash = "sha256-+HjcCzC5sQ6Fkxt3WZungyoouM/q9t2U4R7BHF/ry+g=";
     };
+  custom-vocab =
+    fetchFromGitHub {
+      owner = "omeka-s-modules";
+      repo = "CustomVocab";
+      rev = "v1.4.0";
+      hash = "sha256-jsgU922Q728jBNsYmbK5PsuZtcR0COHJ/PDSFW5D3Ls=";
+    };
 }
