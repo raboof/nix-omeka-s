@@ -69,6 +69,11 @@ let
     ${php}/bin/php-fpm -y ${phpFpmCfg} -c ${phpIni}
     exec "${nginx}/bin/nginx" "-c" ${nginxConf}
   '';
+  omeka-s-theme-eicas = fetchgit {
+    url = https://codeberg.org/eicas/Omeka-S-theme-EICAS;
+    rev = "944765a975191d6c9e34019cef6f0b0ba3d4fb77";
+    sha256 = "sha256-hxFz0zH7psS5QC+FvDVdfIN7VMY9n4vlzwAIFEP0XhE=";
+  };
   omeka-s-image = dockerTools.buildLayeredImage {
     name = "raboof/omeka-s";
     tag = "latest";
@@ -124,6 +129,11 @@ let
       cp -r ${omeka-s-modules.unapi} webroot/modules/UnApi
       cp -r ${omeka-s-modules.custom-ontology} webroot/modules/CustomOntology
       chmod a-w webroot/modules
+
+      chmod a+rwx webroot/themes
+      cp -r ${omeka-s-theme-eicas} webroot/themes/EICAS
+      chmod a-w webroot/themes
+
     '';
     config = {
       Cmd = [ "${startScript}" ];
