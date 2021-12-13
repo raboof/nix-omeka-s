@@ -7,6 +7,8 @@ services:
       - MYSQL_DATABASE=omeka
       - MYSQL_USER=omeka
       - MYSQL_PASSWORD=xie7Hiuf
+    volumes:
+      - ./mysql-conf.d:/etc/mysql/conf.d
   omeka-s:
     image: raboof/omeka-s:latest
     links:
