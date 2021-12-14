@@ -3,10 +3,10 @@ services:
   database:
     image: mysql:8.0.25
     environment:
-      - MYSQL_ROOT_PASSWORD=AhzeiP5s
       - MYSQL_DATABASE=omeka
       - MYSQL_USER=omeka
-      - MYSQL_PASSWORD=xie7Hiuf
+    env_file:
+      - .env
     volumes:
       - ./mysql-conf.d:/etc/mysql/conf.d
   omeka-s:
@@ -15,7 +15,8 @@ services:
       - database
     environment:
       - APPLICATION_ENV=development
-      - OMEKA_CONNECTION_URL=mysql://omeka:xie7Hiuf@database/omeka
+    env_file:
+      - .env
     ports:
       # When these don't match, set file_store/local/base_uri
       # to http://yourdomain/files to make URL's for uploaded
